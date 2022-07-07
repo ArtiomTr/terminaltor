@@ -1,0 +1,18 @@
+.app {
+    $title-bar-height: 36px;
+
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--terminaltor-background);
+    font-family: var(--terminaltor-font-family);
+    color: var(--terminaltor-font-color);
+
+    &__title-bar {
+        height: $title-bar-height;
+    }
+
+    &__container {
+        height: calc(100vh - $title-bar-height - 20px);
+        padding: 10px;
+    }
+}

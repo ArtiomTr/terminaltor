@@ -3,16 +3,33 @@ import { Terminal as XTerminal } from 'xterm';
 import { FitAddon } from 'xterm-addon-fit';
 import 'xterm/css/xterm.css';
 
+const debounce = <T extends (...args: any[]) => any>(func: T, timeout = 300) => {
+    let timer: number | undefined;
+    return (...args: Parameters<T>) => {
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+            func(...args);
+        }, timeout);
+    };
+};
+
 export const Terminal = () => {
     const terminalContainerReference = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         if (terminalContainerReference.current) {
-            const terminal = new XTerminal({});
+            const terminal = new XTerminal({
+                theme: {
+                    background: '#222629',
+                },
+            });
             const fitAddon = new FitAddon();
             terminal.loadAddon(fitAddon);
             terminal.open(terminalContainerReference.current);
-            fitAddon.fit();
+
+            const resizeObserver = new ResizeObserver(debounce(fitAddon.fit.bind(fitAddon)));
+            resizeObserver.observe(terminalContainerReference.current);
+
             terminal.write('hello');
 
             terminal.onKey((key) => {
@@ -28,6 +45,7 @@ export const Terminal = () => {
 
             return () => {
                 terminal.dispose();
+                resizeObserver.disconnect();
             };
         }
     }, []);
@@ -35,8 +53,8 @@ export const Terminal = () => {
     return (
         <div
             style={{
-                width: '100vw',
-                height: '100vh',
+                width: '100%',
+                height: '100%',
             }}
             ref={terminalContainerReference}
         />

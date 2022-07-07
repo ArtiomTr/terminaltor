@@ -1,0 +1,6 @@
+:root {
+    --terminaltor-background: #222629;
+    --terminaltor-title-bar-background: rgb(18, 19, 20);
+    --terminaltor-font-family: 'Fira Code', Consolas, 'Courier New', monospace;
+    --terminaltor-font-color: rgb(220, 225, 229);
+}

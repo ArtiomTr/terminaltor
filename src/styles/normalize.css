@@ -1,0 +1,11 @@
+html,
+body {
+    padding: 0;
+    margin: 0;
+    overscroll-behavior: none;
+    overflow: hidden;
+}
+
+.xterm .xterm-viewport {
+    overflow-y: auto;
+}
